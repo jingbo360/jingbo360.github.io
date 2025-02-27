@@ -23,7 +23,7 @@
                 ]
             },
             {
-                "appID": "UBX9CH9GDX.com.insta360.oner",
+                "appID": "29XFVS94FH.com.insta360.oner",
                 "paths": [
                     "/oner/*",
                     "/wxd4813b01cd522205",
@@ -40,7 +40,7 @@
     },
     "appclips": {
         "apps": [
-            "UBX9CH9GDX.com.insta360.oner.Insta360Clip"
+            "29XFVS94FH.com.insta360.oner.Insta360Clip"
         ]
     }
 }
