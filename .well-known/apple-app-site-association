@@ -5,19 +5,19 @@
         ],
         "details": [
             {
-                "appID": "UBX9CH9GDX.com.insta360.one",
+                "appID": "29XFVS94FH.com.insta360.one",
                 "paths": [
                     "/one/*"
                 ]
             },
             {
-                "appID": "UBX9CH9GDX.com.insta360.Insta360Nano",
+                "appID": "29XFVS94FH.com.insta360.Insta360Nano",
                 "paths": [
                     "/nano/*"
                 ]
             },
             {
-                "appID": "UBX9CH9GDX.com.insta360.nanos",
+                "appID": "29XFVS94FH.com.insta360.nanos",
                 "paths": [
                     "/nanos/*"
                 ]
@@ -31,7 +31,7 @@
                 ]
             },
             {
-                "appID": "UBX9CH9GDX.com.insta360.onex",
+                "appID": "29XFVS94FH.com.insta360.onex",
                 "paths": [
                     "/onex/*"
                 ]
