@@ -25,10 +25,12 @@
             {
                 "appID": "29XFVS94FH.com.insta360.oner",
                 "paths": [
-                    "/oner/*",
-                    "/wxd4813b01cd522205",
-                    "/wxd4813b01cd522205/*"
-                ]
+          "/oner/*",
+          "/wxd4813b01cd522205",
+          "/wxd4813b01cd522205/*",
+          "/clip",
+          "/clip/*"
+        ]
             },
             {
                 "appID": "29XFVS94FH.com.insta360.onex",
