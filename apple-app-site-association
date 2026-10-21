@@ -1,48 +1,16 @@
 {
-    "applinks": {
-        "apps": [
-
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "847R5ZLN8S.com.insta360.onerInhouse",
+          "4929FJXLY8.com.antigravity.ag"
         ],
-        "details": [
-            {
-                "appID": "29XFVS94FH.com.insta360.one",
-                "paths": [
-                    "/one/*"
-                ]
-            },
-            {
-                "appID": "29XFVS94FH.com.insta360.Insta360Nano",
-                "paths": [
-                    "/nano/*"
-                ]
-            },
-            {
-                "appID": "29XFVS94FH.com.insta360.nanos",
-                "paths": [
-                    "/nanos/*"
-                ]
-            },
-            {
-                "appID": "29XFVS94FH.com.insta360.oner",
-                "paths": [
-          "/oner/*",
-          "/wxd4813b01cd522205",
-          "/wxd4813b01cd522205/*",
-          "/clip",
-          "/clip/*"
+        "components": [
+          { "/": "/app/*", "comment": "AG UL 底座：所有 /app 子路径" },
+          { "/": "/app",   "comment": "AG UL 底座：根" }
         ]
-            },
-            {
-                "appID": "29XFVS94FH.com.insta360.onex",
-                "paths": [
-                    "/onex/*"
-                ]
-            }
-        ]
-    },
-    "appclips": {
-        "apps": [
-            "29XFVS94FH.com.insta360.oner.Insta360Clip"
-        ]
-    }
+      }
+    ]
+  }
 }
