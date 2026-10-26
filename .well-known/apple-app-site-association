@@ -4,7 +4,8 @@
       {
         "appIDs": [
           "847R5ZLN8S.com.insta360.onerInhouse",
-          "4929FJXLY8.com.antigravity.ag"
+          "4929FJXLY8.com.antigravity.ag",
+          "KDZWB3RR42.com.aerovista.avdebug"
         ],
         "components": [
           { "/": "/app/*", "comment": "AG UL 底座：所有 /app 子路径" },
