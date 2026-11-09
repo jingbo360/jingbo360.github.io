@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.antigravity.ag",
+      "sha256_cert_fingerprints": [
+        "AC:71:78:9E:E6:D0:8C:42:07:12:ED:53:33:03:A0:8A:58:C0:20:B2:60:B9:2B:C0:A8:05:8B:CF:64:5D:F9:20"
+      ]
+    }
+  }
+]
