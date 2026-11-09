@@ -35,8 +35,10 @@
     font-weight: 600;
     text-decoration: none;
   }
+  .btn + .btn { margin-top: 12px; }
   .btn[hidden] { display: none; }
   noscript .btn { margin-top: 24px; }
+  noscript .btn + .btn { margin-top: 12px; }
 </style>
 </head>
 <body>
@@ -44,8 +46,10 @@
   <h1 id="title">页面不存在</h1>
   <p id="desc">请检查链接是否正确。</p>
   <a id="action" class="btn" hidden></a>
+  <a id="action2" class="btn" hidden></a>
   <noscript>
     <a class="btn" href="https://apps.apple.com/app/id6747373608">前往 App Store 下载 Antigravity</a>
+    <a class="btn" href="https://play.google.com/store/apps/details?id=com.antigravity.ag">前往 Google Play 下载 Antigravity</a>
   </noscript>
 </main>
 <script>
@@ -60,25 +64,34 @@
   // SettingItemsViewController.AppStoreID 保持一致。
   var APP_STORE_URL = 'https://apps.apple.com/app/id6747373608';
 
+  // Android 应用商店地址。包名与 Android 端 applicationId 一致：com.antigravity.ag。
+  // 若只在某个国内商店分发，把它换成对应商店 / 官网下载页即可
+  // （只改这一行，noscript 里的字面量同步改）。
+  var PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.antigravity.ag';
+
   // 固定路径前缀（不可变），只取它后面的最后一段作为 key。
   // 与 AASA 的 components "/app/*" 对齐：/app/nfc/<key>
   var PATH_PREFIX = '/app/nfc/';
 
-  // key -> 行为。当前只支持 'appstore'。
+  // key -> 行为。当前只支持 'store'（按平台去各自商店）。
   // 新增入口时在这里加一行，不需要新建目录、不需要改 AASA。
   var KEY_ACTIONS = {
-    connect: 'appstore'      // NFC 贴标签连设备
+    connect: 'store'         // NFC 贴标签连设备
   };
 
   /* ------------------------------------------------------------------
    * 实现
    * ---------------------------------------------------------------- */
 
-  function isIOS() {
+  // 'ios' | 'android' | 'other'
+  function platform() {
     var ua = navigator.userAgent || '';
-    if (/iPad|iPhone|iPod/.test(ua)) return true;
+    if (/iPad|iPhone|iPod/.test(ua)) return 'ios';
     // iPadOS 13+ 的 Safari 伪装成 Macintosh，靠触点数区分
-    return /Macintosh/.test(ua) && navigator.maxTouchPoints > 1;
+    if (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) return 'ios';
+    // 鸿蒙 4 及以下 UA 里仍带 Android；HarmonyOS NEXT 不带，会落到 'other'
+    if (/Android/i.test(ua)) return 'android';
+    return 'other';
   }
 
   function resolveKey(pathname) {
@@ -90,34 +103,52 @@
     return key || null;
   }
 
-  function render(title, desc, linkText, linkHref) {
+  // links: [{ text, href }, { text, href }]，最多两个按钮
+  function render(title, desc, links) {
     document.getElementById('title').textContent = title;
     document.getElementById('desc').textContent = desc;
-    if (linkText && linkHref) {
-      var action = document.getElementById('action');
-      action.textContent = linkText;
-      action.href = linkHref;
-      action.hidden = false;
+    var slots = ['action', 'action2'];
+    for (var i = 0; i < slots.length; i++) {
+      var el = document.getElementById(slots[i]);
+      var link = links && links[i];
+      if (link) {
+        el.textContent = link.text;
+        el.href = link.href;
+        el.hidden = false;
+      } else {
+        el.hidden = true;
+      }
     }
   }
+
+  var STORE_LINKS = [
+    { text: '前往 App Store 下载 Antigravity', href: APP_STORE_URL },
+    { text: '前往 Google Play 下载 Antigravity', href: PLAY_STORE_URL }
+  ];
 
   var key = resolveKey(location.pathname);
   var action = key ? KEY_ACTIONS[key] : null;
 
-  if (action === 'appstore') {
-    // 能跑到这里说明 App 未安装 —— 已安装时 iOS 会把 URL 直接交给 App，
-    // Safari 不会发起这次请求，所以这里不需要探测 App 是否存在。
-    if (isIOS()) {
+  if (action === 'store') {
+    // 能跑到这里说明 App 未安装 —— 已安装时 iOS / Android 会把 URL 直接交给 App，
+    // 浏览器不会发起这次请求，所以这里不需要探测 App 是否存在。
+    var os = platform();
+    if (os === 'ios') {
       location.replace(APP_STORE_URL);
       return;
     }
-    render('Antigravity', '请在 iPhone 或 iPad 上打开此链接。', '前往 App Store', APP_STORE_URL);
+    if (os === 'android') {
+      location.replace(PLAY_STORE_URL);
+      return;
+    }
+    // 桌面或其他平台：给两个商店入口，不自动跳
+    render('Antigravity', '请在手机上安装 App 后打开此链接。', STORE_LINKS);
     return;
   }
 
   // 未配置的 key / 非约定前缀的路径：保持一个正常 404 页面，不劫持整站
   if (key) {
-    render('页面不存在', '链接已失效或版本不匹配。', '前往 App Store 下载 Antigravity', APP_STORE_URL);
+    render('页面不存在', '链接已失效或版本不匹配。', STORE_LINKS);
   }
 })();
 </script>
