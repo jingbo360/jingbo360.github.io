@@ -47,8 +47,10 @@
   <p id="desc">请检查链接是否正确。</p>
   <a id="action" class="btn" hidden></a>
   <a id="action2" class="btn" hidden></a>
+  <a id="action3" class="btn" hidden></a>
   <noscript>
     <a class="btn" href="https://apps.apple.com/app/id6747373608">前往 App Store 下载 Antigravity</a>
+    <a class="btn" href="https://sj.qq.com/appdetail/com.antigravity.ag">前往应用宝下载 Antigravity</a>
     <a class="btn" href="https://play.google.com/store/apps/details?id=com.antigravity.ag">前往 Google Play 下载 Antigravity</a>
   </noscript>
 </main>
@@ -64,9 +66,12 @@
   // SettingItemsViewController.AppStoreID 保持一致。
   var APP_STORE_URL = 'https://apps.apple.com/app/id6747373608';
 
-  // Android 应用商店地址。包名与 Android 端 applicationId 一致：com.antigravity.ag。
-  // 若只在某个国内商店分发，把它换成对应商店 / 官网下载页即可
-  // （只改这一行，noscript 里的字面量同步改）。
+  // 应用宝（国内主渠道）。Android 设备默认跳这里。
+  // 包名与 Android 端 applicationId 一致：com.antigravity.ag。
+  var ANDROID_STORE_URL = 'https://sj.qq.com/appdetail/com.antigravity.ag';
+
+  // Google Play（海外渠道）。当前只作为页面上的手动入口，不自动跳。
+  // 若要让 Android 默认走 Play，把上面的 ANDROID_STORE_URL 换成这个值即可。
   var PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.antigravity.ag';
 
   // 固定路径前缀（不可变），只取它后面的最后一段作为 key。
@@ -103,11 +108,11 @@
     return key || null;
   }
 
-  // links: [{ text, href }, { text, href }]，最多两个按钮
+  // links: [{ text, href }, ...]，最多三个按钮
   function render(title, desc, links) {
     document.getElementById('title').textContent = title;
     document.getElementById('desc').textContent = desc;
-    var slots = ['action', 'action2'];
+    var slots = ['action', 'action2', 'action3'];
     for (var i = 0; i < slots.length; i++) {
       var el = document.getElementById(slots[i]);
       var link = links && links[i];
@@ -123,6 +128,7 @@
 
   var STORE_LINKS = [
     { text: '前往 App Store 下载 Antigravity', href: APP_STORE_URL },
+    { text: '前往应用宝下载 Antigravity', href: ANDROID_STORE_URL },
     { text: '前往 Google Play 下载 Antigravity', href: PLAY_STORE_URL }
   ];
 
@@ -138,10 +144,10 @@
       return;
     }
     if (os === 'android') {
-      location.replace(PLAY_STORE_URL);
+      location.replace(ANDROID_STORE_URL);
       return;
     }
-    // 桌面或其他平台：给两个商店入口，不自动跳
+    // 桌面或其他平台：给各商店入口，不自动跳
     render('Antigravity', '请在手机上安装 App 后打开此链接。', STORE_LINKS);
     return;
   }
